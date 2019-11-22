@@ -1,11 +1,22 @@
 {
   "manifest_version": 2,
   "name": "MTG Card Buffer",
-  "version": "1.0",
+  "version": "1.001",
  
   "description": "Allows to store mtg card names in the buffer",
   "icons": {
     "48": "icons/border-48.png"
+  },
+
+  "background": {
+    "scripts": [
+        "background.bundle.js"
+    ]
+  },
+  
+  "browser_action": {
+    "default_title": "MTG Card Buffer",
+    "default_popup": "html/popup.html"
   },
 
   "applications": {

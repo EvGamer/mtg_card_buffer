@@ -9,7 +9,7 @@ module.exports = {
   mode: "development",
   devtool: "inline-source-map",
   entry: {
-    main: path.join(__dirname, "src", "popup.js"),
+    popup: path.join(__dirname, "src", "popup.js"),
     background: path.join(__dirname, "src", "background.js"),
   },
   output: {
@@ -30,8 +30,8 @@ module.exports = {
       cleanOnceBeforeBuildPatterns: ['build/*']
     }),
     new CopyWebpackPlugin([
-      { from: "src/manifest.json" },
-      { from: "src/img/", to: 'img/' },
+      { from: "src/manifest.json", to: "manifest.json" },
+      { from: "src/icons/", to: 'icons/' },
       { from: "src/css/", to: 'css/' },
       { from: "src/html/", to: 'html/' },
     ]),
