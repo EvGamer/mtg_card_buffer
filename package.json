@@ -1,0 +1,39 @@
+{
+  "name": "mtg_card_buffer",
+  "version": "1.0.0",
+  "description": "Allows to store mtg card names in the buffer",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config build/webpack.config.dev.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EvGamer/mtg_card_buffer.git"
+  },
+  "keywords": [
+    "MTG",
+    "ContextMenu",
+    "Plugin",
+    "Firefox",
+    "Cardgames",
+    "Utils"
+  ],
+  "author": "Eugene Kuzmenko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/EvGamer/mtg_card_buffer/issues"
+  },
+  "homepage": "https://github.com/EvGamer/mtg_card_buffer#readme",
+  "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.0.5",
+    "css-loader": "^3.2.0",
+    "vue-loader": "^15.7.2",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.6.10",
+    "webpack": "^4.41.2"
+  },
+  "dependencies": {
+    "vue": "^2.6.10"
+  }
+}
