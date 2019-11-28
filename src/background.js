@@ -1,6 +1,6 @@
 import uniqueId from 'lodash/uniqueId';
 import { ADD_CARD } from './background/const/contextMenu';
-import { GET_CARD_LIST, ADD_CARD_TO_POPUP } from './background/const/messages';
+import { GET_CARD_LIST, ADD_CARD_TO_POPUP, REMOVE_CARD, UPDATE_CARD_LIST } from './background/const/messages';
 
 browser.contextMenus.create(
   {
@@ -10,7 +10,7 @@ browser.contextMenus.create(
   },
 );
 
-const cardList = [{
+let cardList = [{
   id: uniqueId('back_mtg_card'),
   name: 'plains',
   count: 1,
@@ -40,7 +40,10 @@ browser.contextMenus.onClicked.addListener(switchHandlers('menuItemId', {
 
 browser.runtime.onMessage.addListener(switchHandlers('type', {
   [GET_CARD_LIST](message, sender, sendResponse) {
-    console.log(cardList)
     sendResponse(cardList);
+  },
+  [UPDATE_CARD_LIST](message) {
+    console.log(message);
+    cardList = message.payload;
   }
 }))

@@ -30,12 +30,12 @@
     },
     methods: {
       edit() {
-        this.newValue = this.text;
+        this.newValue = this.value;
         this.isEditing = true;
       },
       confirm() {
         this.isEditing = false;
-        this.value = this.newValue;
+        this.$emit('changeField', this.newValue)
       }
     }
   }
