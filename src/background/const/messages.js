@@ -1,0 +1,2 @@
+export const GET_CARD_LIST = 'GET_CARD_LIST';
+export const ADD_CARD_TO_POPUP = 'ADD_CARD_TO_POPUP';
