@@ -59,6 +59,7 @@ import Counter from './components/Counter.vue';
 import getCardLine from '../utils/getCardLine';
 import parseCardList from '../utils/parseCardList';
 import getCardListWithTotal from '../utils/getCardListWithTotal';
+import getCardListTotalPrice from '../utils/getCardListTotalPrice';
 
 export default {
   name: "App",
@@ -99,7 +100,7 @@ export default {
   },
   computed: {
     totalPrice() {
-      return this.cards.reduce((a, e) => a + e.price, 0);
+      return getCardListTotalPrice(this.cards);
     },
     totalCount() {
       return this.cards.reduce((a, e) => a + e.count, 0);

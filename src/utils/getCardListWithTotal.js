@@ -1,4 +1,6 @@
+import getCardListTotalPrice from './getCardListTotalPrice'
+
 export default cardList => [
   ...cardList,
-  { name: 'Сумма', price: cardList.reduce((a, e) => a + e.price, 0) },
+  { name: 'Сумма', price: getCardListTotalPrice(cardList) },
 ]
