@@ -11,6 +11,7 @@ module.exports = {
   entry: {
     popup: path.join(__dirname, "src", "popup.js"),
     background: path.join(__dirname, "src", "background.js"),
+    insertListAtCursor: path.join(__dirname, "src", "activeTab", "insertListAtCursor.js")
   },
   output: {
     path: path.join(__dirname, "build"),

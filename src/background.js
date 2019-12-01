@@ -1,6 +1,6 @@
 import uniqueId from 'lodash/uniqueId';
-import { ADD_CARD } from './background/const/contextMenu';
-import { GET_CARD_LIST, ADD_CARD_TO_POPUP, REMOVE_CARD, UPDATE_CARD_LIST } from './background/const/messages';
+import { ADD_CARD, PASTE_CARD_LIST } from './background/const/contextMenu';
+import { GET_CARD_LIST, ADD_CARD_TO_POPUP, UPDATE_CARD_LIST } from './background/const/messages';
 
 browser.contextMenus.create(
   {
@@ -9,6 +9,14 @@ browser.contextMenus.create(
     contexts: ["selection", "link"]
   },
 );
+
+browser.contextMenus.create(
+  {
+    id: PASTE_CARD_LIST,
+    title: "Вставить список карт",
+    contexts: ["editable"],
+  }
+)
 
 let cardList = [{
   id: uniqueId('back_mtg_card'),
@@ -24,6 +32,7 @@ const switchHandlers = (typeField, handlers) => (action, ...args) => {
 
 browser.contextMenus.onClicked.addListener(switchHandlers('menuItemId', {
   [ADD_CARD] (info, tab) {
+    console.log(info);
     const card = {
       id: uniqueId('back_mtg_card'),
       name: info.linkText || info.selectionText,
@@ -35,6 +44,12 @@ browser.contextMenus.onClicked.addListener(switchHandlers('menuItemId', {
       type: ADD_CARD_TO_POPUP,
       payload: card,
     })
+  },
+  async [PASTE_CARD_LIST] (info, tab) {
+    browser.tabs.executeScript(
+      tab.id,
+      { file: 'insertListAtCursor.bundle.js' },
+    )
   }
 }));
 

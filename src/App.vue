@@ -34,6 +34,7 @@ import {
   ADD_CARD_TO_POPUP,
   UPDATE_CARD_LIST,
 } from './background/const/messages';
+import msgGetCardList from './messages/msgGetCardList'
 import Input from './components/Input.vue';
 import Counter from './components/Counter.vue';
 
@@ -43,9 +44,7 @@ export default {
   components: { Input, Counter },
   async mounted() {
     browser.runtime.onMessage.addListener(this.addCardHandler)
-    const response = await browser.runtime.sendMessage({
-      type: GET_CARD_LIST
-    });
+    const response = await msgGetCardList();
     this.cards = response;
   },
   beforeDestroy() {
