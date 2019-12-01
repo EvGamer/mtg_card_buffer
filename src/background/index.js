@@ -26,7 +26,9 @@ const menu = [
 ]
 
 menu.forEach(menuItem => browser.contextMenus.create(menuItem));
-
+// 1 Эмри, Таящаяся в Озере 225
+// 1 Злокозненная Симметрия 130
+// 1 Теззерет, Владыка Моста 195
 let cardList = [];
 let selectedCardId = null;
 
@@ -74,7 +76,6 @@ browser.runtime.onMessage.addListener(switchHandlers('type', {
     selectedCardId = message.payload.selectedCardId;
   },
   [UPDATE_CARD_LIST](message) {
-    console.log(message);
     cardList = message.payload;
   }
 }))

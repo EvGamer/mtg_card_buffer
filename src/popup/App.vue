@@ -2,7 +2,7 @@
 
 <template>
   <div class='frame'>
-    <div class='title'>Selected Cards</div>
+    <div class='title'>Выбранные карты</div>
     <div
       :class="{selected: card.id === selectedCardId}"
       @click="selectCard(card.id)"
@@ -22,9 +22,24 @@
       <Input
         :value="card.price"
         class="price"
-        @changeField="card.price = $event"
+        @changeField="card.price = Number($event)"
       />
       <button class="remove" @click="remove(card.id)">X</button>
+    </div>
+    <div class="actions">
+      <div class="item">Количество: {{ totalCount }}</div>
+      <div class="item">Сумма: {{ totalPrice }}</div>
+    </div>
+    <div class="actions">
+      <button class='action' @click="cards=[]">
+        Отчистить
+      </button>
+      <button class='action' @click="copy">
+        Копировать
+      </button>
+      <button class='action' @click="paste">
+        Вставить
+      </button>
     </div>
   </div>
 </template>
@@ -41,7 +56,9 @@ import msgUpdateCardList from '../messages/msgUpdateCardList';
 import msgSelectCard from '../messages/msgSelectCard';
 import Input from './components/Input.vue';
 import Counter from './components/Counter.vue';
-
+import getCardLine from '../utils/getCardLine';
+import parseCardList from '../utils/parseCardList';
+import getCardListWithTotal from '../utils/getCardListWithTotal';
 
 export default {
   name: "App",
@@ -70,6 +87,22 @@ export default {
     },
     remove(id) {
       this.cards = this.cards.filter(e => e.id !== id);
+    },
+    copy() {
+      const toClipboard = getCardListWithTotal(this.cards).map(getCardLine).join('\n');
+      navigator.clipboard.writeText(toClipboard);
+    },
+    async paste() {
+      const text = await navigator.clipboard.readText();
+      this.cards = parseCardList(text);
+    }
+  },
+  computed: {
+    totalPrice() {
+      return this.cards.reduce((a, e) => a + e.price, 0);
+    },
+    totalCount() {
+      return this.cards.reduce((a, e) => a + e.count, 0);
     }
   },
   watch: {
@@ -88,8 +121,28 @@ export default {
 body {
   color: #c1d9d1;
   background-color: #4f5c58;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
+}
+
+button {
+  border: none;
+  background: transparent;
+  outline: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+button:focus {
+  outline: none;
+  background-color: #c1d9d11f;
+}
+button:hover {
+  color: #ffffff;
+}
+button:active {
+  background-color: #c1d9d134;
 }
 </style>
 
@@ -101,6 +154,7 @@ body {
 
 .item {
   display:flex;
+  padding: 2px;
 }
 
 .selected {
@@ -122,9 +176,18 @@ body {
   cursor: pointer;
   background: none;
   color: #c1d9d1;
+  width: 20px
 }
 
 .remove:focus {
   outline: none;
+}
+
+.actions {
+  margin-top: 10px;
+}
+
+.action {
+  margin-right: 10px;
 }
 </style>
