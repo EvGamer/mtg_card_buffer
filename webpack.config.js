@@ -9,8 +9,8 @@ module.exports = {
   mode: "development",
   devtool: "inline-source-map",
   entry: {
-    popup: path.join(__dirname, "src", "popup.js"),
-    background: path.join(__dirname, "src", "background.js"),
+    popup: path.join(__dirname, "src", "popup", "index.js"),
+    background: path.join(__dirname, "src", "background", "index.js"),
     insertListAtCursor: path.join(__dirname, "src", "activeTab", "insertListAtCursor.js")
   },
   output: {

@@ -4,6 +4,8 @@
   <div class='frame'>
     <div class='title'>Selected Cards</div>
     <div
+      :class="{selected: card.id === selectedCardId}"
+      @click="selectCard(card.id)"
       class="item"
       v-for="card in cards"
       :key="card.id"
@@ -33,8 +35,10 @@ import {
   GET_CARD_LIST,
   ADD_CARD_TO_POPUP,
   UPDATE_CARD_LIST,
-} from './background/const/messages';
-import msgGetCardList from './messages/msgGetCardList'
+} from '../background/const/messages';
+import msgGetCardList from '../messages/msgGetCardList';
+import msgUpdateCardList from '../messages/msgUpdateCardList';
+import msgSelectCard from '../messages/msgSelectCard';
 import Input from './components/Input.vue';
 import Counter from './components/Counter.vue';
 
@@ -43,20 +47,26 @@ export default {
   name: "App",
   components: { Input, Counter },
   async mounted() {
-    browser.runtime.onMessage.addListener(this.addCardHandler)
-    const response = await msgGetCardList();
-    this.cards = response;
+    browser.runtime.onMessage.addListener(this.addCardHandler);
+    const { cardList, selectedCardId } = await msgGetCardList();
+    this.cards = cardList;
+    this.selectedCardId = selectedCardId;
   },
   beforeDestroy() {
     browser.runtime.onMessage.removeListener(this.addCardHandler);
   },
   data: () => ({
-    cards: []
+    cards: [],
+    selectedCardId: null,
   }),
   methods: {
     addCardHandler(message) {
       if(message.type != ADD_CARD_TO_POPUP) return;
-      this.cards.push(message.payload);
+      this.cards.push(message.payload.card);
+    },
+    selectCard(id) {
+      this.selectedCardId = id;
+      msgSelectCard(id);
     },
     remove(id) {
       this.cards = this.cards.filter(e => e.id !== id);
@@ -65,13 +75,11 @@ export default {
   watch: {
     cards: {
       handler(val) {
-        browser.runtime.sendMessage({
-          type: UPDATE_CARD_LIST,
-          payload: val,
-        });
+        msgUpdateCardList(val);
       },
       deep: true,
-    }
+    },
+
   }
 }
 </script>
@@ -93,6 +101,10 @@ body {
 
 .item {
   display:flex;
+}
+
+.selected {
+  border: 1px solid #c1d9d1;
 }
 
 .price {

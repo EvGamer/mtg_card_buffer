@@ -1,6 +1,6 @@
 import msgGetCardList from "../messages/msgGetCardList";
 
-msgGetCardList().then(cardList => {
+msgGetCardList().then(({ cardList }) => {
   let sel, range;
   if (window.getSelection) {
     sel = window.getSelection();
@@ -10,7 +10,11 @@ msgGetCardList().then(cardList => {
       
       cardList.forEach(e => {
         const div = document.createElement('div');
-        div.textContent = `${e.count} ${e.name} ${e.price}`;
+        const content = `${e.count} ${e.name}`
+        div.textContent = (e.price
+          ? `${content} ${e.price}`
+          : content
+        );
         range.insertNode(div);
       });
     }
