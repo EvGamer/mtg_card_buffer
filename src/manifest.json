@@ -3,7 +3,7 @@
   "name": "MTG Card",
   "version": "1.000",
  
-  "description": "Allows to store mtg card names in memory and insert them therever you like, helping with trade or deckbuilding",
+  "description": "Tool what allows you manage list of MTG cards. You can add them through context menu, or by copying the list into clipboard. Tool also allows you to insert the list whereever you like",
   "icons": {
     "24": "icons/icon24.png"
   },
