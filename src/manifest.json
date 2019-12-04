@@ -1,7 +1,8 @@
 {
   "manifest_version": 2,
   "name": "MTG Card",
-  "version": "1.000",
+  "version": "1.0.0",
+  "author": "EvGamer",
  
   "description": "Tool what allows you manage list of MTG cards. You can add them through context menu, or by copying the list into clipboard. Tool also allows you to insert the list whereever you like",
   "icons": {
@@ -21,8 +22,8 @@
 
   "applications": {
     "gecko": {
-      "id": "mtgcardbuffer@mozilla.org",
-      "strict_min_version": "45.0"
+      "id": "mtgcart@evgamer.org",
+      "strict_min_version": "57.0"
     }
   },
 
