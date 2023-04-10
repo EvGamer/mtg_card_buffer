@@ -1,18 +1,22 @@
+import { Toolbar, CardTable } from "./instances";
+
+function createAppContainer(tag, id) {
+  const element = document.createElement(tag);
+  element.id = `mtgCardBuffer_${id}`;
+  return element;
+}
+
 const firstPost = document.querySelector("#comments .cPost");
 
 const firstPostToolbar = firstPost.querySelector(".ipsComment_tools");
 
-const btnOpenTable = document.createElement('button');
-btnOpenTable.appendChild(document.createTextNode("Карты"));
-btnOpenTable.classList.add("ipsButton", "ipsButton_verySmall", "ipsButton_narrow", "ipsButton_light");
+const toolbarContainer = createAppContainer('li', 'toolbar');
+firstPostToolbar.prepend(toolbarContainer);
+new Toolbar().$mount(toolbarContainer);
 
-btnOpenTable.addEventListener('click', (event) => {
-  event.preventDefault();
-  console.log('Составляю список карт...');
-})
+const firstPostContent = firstPost.querySelector(".cPost_contentWrap");
 
-const itemOpenTable = document.createElement('li');
-itemOpenTable.appendChild(btnOpenTable);
-
-firstPostToolbar.prepend(itemOpenTable);
+const cardTableContainer = createAppContainer('div', 'cardTable');
+firstPostContent.prepend(cardTableContainer);
+new CardTable().$mount(cardTableContainer);
 
