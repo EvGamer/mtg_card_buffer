@@ -1,5 +1,5 @@
 <template>
-  <button 
+  <button
     class="ipsButton ipsButton_verySmall ipsButton_narrow ipsButton_light"
     @click.prevent="toggleTable"
   >
@@ -12,7 +12,7 @@
     name: "BtnToggleCardTable",
     methods: {
       toggleTable() {
-        this.$store.commit("toggleTable");
+        this.$store.dispatch("toggleTable");
       }
     }
   }
