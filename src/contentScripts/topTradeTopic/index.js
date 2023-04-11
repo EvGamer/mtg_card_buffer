@@ -9,15 +9,18 @@ function createAppContainer(tag, id) {
 
 const firstPost = document.querySelector("#comments .cPost");
 
-const firstPostToolbar = firstPost.querySelector(".ipsComment_tools");
+const topicHeaderElement = document.querySelector('#ipsLayout_mainArea>.ipsPageHeader');
+
+const shareButtonElement = topicHeaderElement.querySelector(".ipsShareButton")
 
 const toolbarContainer = createAppContainer('li', 'toolbar');
-firstPostToolbar.prepend(toolbarContainer);
+shareButtonElement.after(toolbarContainer)
 new Toolbar().$mount(toolbarContainer);
 
-const firstPostContent = firstPost.querySelector(".cPost_contentWrap");
-
 const cardTableContainer = createAppContainer('div', 'cardTable');
-firstPostContent.prepend(cardTableContainer);
+
+
+topicHeaderElement.after(cardTableContainer);
+
 new CardTable().$mount(cardTableContainer);
 

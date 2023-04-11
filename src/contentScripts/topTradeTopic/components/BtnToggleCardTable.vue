@@ -1,6 +1,6 @@
 <template>
   <button
-    class="ipsButton ipsButton_verySmall ipsButton_narrow ipsButton_light"
+    class="ipsButton ipsButton_verySmall ipsButton_light"
     @click.prevent="toggleTable"
   >
     Карты

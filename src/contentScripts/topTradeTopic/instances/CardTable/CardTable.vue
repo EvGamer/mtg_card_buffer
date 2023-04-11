@@ -5,7 +5,8 @@
       :rows="cards"
       :columns="columns"
       :pagination-options="paginationOptions"
-      class="vgt-table condensed table"
+      styleClass="vgt-table condensed"
+      class="mtg-card-buffer__table"
     />
   </div>
 </template>
@@ -38,7 +39,12 @@
           },
           {
             field: "name",
-            label: "Название"
+            label: "Название",
+            filterOptions: {
+              enabled: true,
+              placeholder: "Поиск по названию",
+              trigger: "enter"
+            }
           },
           {
             field: "set",
@@ -74,8 +80,8 @@
   }
 </script>
 
-<style scoped>
-  .table {
+<style>
+  .mtg-card-buffer__table .vgt-table {
     font-size: 14px;
     margin-bottom: 15px;
   }
