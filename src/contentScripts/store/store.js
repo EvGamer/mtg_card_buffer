@@ -33,6 +33,7 @@ export const store = new Vuex.Store({
       if (context.state.isTableOpen === false) {
         await context.dispatch('loadTable');
         context.commit('setIsTableOpen', true);
+        return;
       }
       context.commit('setIsTableOpen', false);
     }

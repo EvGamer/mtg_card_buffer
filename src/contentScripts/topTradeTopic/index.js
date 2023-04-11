@@ -1,9 +1,5 @@
-import Vue from 'vue';
-import { ClientTable } from "vue-tables-2";
-
 import { Toolbar, CardTable } from "./instances";
 
-Vue.use(ClientTable, {}, false, "bootstrap3");
 
 function createAppContainer(tag, id) {
   const element = document.createElement(tag);
