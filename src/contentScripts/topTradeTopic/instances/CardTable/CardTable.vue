@@ -7,7 +7,24 @@
       :pagination-options="paginationOptions"
       styleClass="vgt-table condensed"
       class="mtg-card-buffer__table"
-    />
+    >
+      <template slot="table-row" slot-scope="props">
+        <div v-if="props.column.field === 'name'">
+          <div
+              role="button"
+              tabindex="0"
+              class="previewButton"
+              @click="togglePreview(props.row.id)"
+          >
+            {{ props.row.name }}
+          </div>
+          <img v-if="openedPreviewCardId === props.row.id" :src="props.row.imageUrl" height="300"/>
+        </div>
+        <span v-else>
+          {{ props.formattedRow[props.column.field] }}
+        </span>
+      </template>
+    </VueGoodTable>
   </div>
 </template>
 
@@ -20,6 +37,7 @@
     components: { VueGoodTable },
     data() {
       return {
+        openedPreviewCardId: null,
         paginationOptions: {
           enabled: true,
           perPage: 15,
@@ -69,6 +87,13 @@
         ]
       }
     },
+    methods: {
+      togglePreview(cardId) {
+        this.$data.openedPreviewCardId = this.$data.openedPreviewCardId === cardId
+          ? null
+          : cardId
+      }
+    },
     computed: {
       cards() {
         return this.$store.state.cards;
@@ -80,9 +105,12 @@
   }
 </script>
 
-<style>
-  .mtg-card-buffer__table .vgt-table {
-    font-size: 14px;
-    margin-bottom: 15px;
+<style scoped>
+  .previewButton {
+    cursor: pointer;
+
+  }
+  .previewButton:hover {
+    color: var(--informational-dark);
   }
 </style>

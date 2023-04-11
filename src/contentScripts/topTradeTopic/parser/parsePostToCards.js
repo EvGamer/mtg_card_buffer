@@ -30,6 +30,7 @@ export function parsePostToCards(postContentElement) {
     const card = {
       id: i,
       name: cardLink.textContent,
+      imageUrl: cardLink.href,
       quantity,
     }
 
