@@ -27,14 +27,14 @@ export const store = new Vuex.Store({
       const cards = parsePostToCards(postContentElement);
 
       context.commit('setCards', cards);
-      context.commit('setIsTableOpen', true);
     },
 
-    toggleTable(context) {
+    async toggleTable(context) {
       if (context.state.isTableOpen === false) {
-        context.dispatch('loadTable');
+        await context.dispatch('loadTable');
+        context.commit('setIsTableOpen', true);
       }
-      context.dispatch('setIsTableOpen', false);
+      context.commit('setIsTableOpen', false);
     }
   }
 });
