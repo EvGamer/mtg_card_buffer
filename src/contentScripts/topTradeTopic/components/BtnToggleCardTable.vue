@@ -3,7 +3,7 @@
     class="ipsButton ipsButton_verySmall ipsButton_light"
     @click.prevent="toggleTable"
   >
-    Карты
+    {{ text }}
   </button>
 </template>
 
@@ -13,6 +13,13 @@
     methods: {
       toggleTable() {
         this.$store.dispatch("toggleTable");
+      }
+    },
+    computed: {
+      text() {
+        return this.$store.state.isTableOpen
+          ? "Скрыть таблицу карт"
+          : "Показать таблицу карт";
       }
     }
   }
