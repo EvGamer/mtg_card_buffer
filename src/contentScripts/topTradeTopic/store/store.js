@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { parsePostToCards } from '../topTradeTopic/parser';
+import { parsePostToCards } from '../parser';
 
 Vue.use(Vuex);
 
