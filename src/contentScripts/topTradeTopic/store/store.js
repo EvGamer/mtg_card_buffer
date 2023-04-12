@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import { sendAddCardMessage } from '../../../background/messages';
+
 import { parsePostToCards } from '../parser';
 
 Vue.use(Vuex);
@@ -36,6 +38,15 @@ export const store = new Vuex.Store({
         return;
       }
       context.commit('setIsTableOpen', false);
+    },
+
+    async addToCart(context, card) {
+      sendAddCardMessage({
+        id: card.id,
+        name: card.name,
+        count: 1,
+        price: card.price,
+      })
     }
   }
 });

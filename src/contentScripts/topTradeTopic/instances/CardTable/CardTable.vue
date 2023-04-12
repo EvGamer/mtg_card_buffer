@@ -20,6 +20,14 @@
           </div>
           <img v-if="openedPreviewCardId === props.row.id" :src="props.row.imageUrl" height="300"/>
         </div>
+        <div v-if="props.column.field === 'actions'">
+          <button
+            class="ipsButton ipsButton_verySmall ipsButton_light"
+            @click="addToCart(props.row)"
+          >
+            В корзину
+          </button>
+        </div>
         <span v-else>
           {{ props.formattedRow[props.column.field] }}
         </span>
@@ -84,6 +92,10 @@
             field: "price",
             label: "Цена"
           },
+          {
+            field: "actions",
+            label: ""
+          }
         ]
       }
     },
@@ -92,6 +104,9 @@
         this.$data.openedPreviewCardId = this.$data.openedPreviewCardId === cardId
           ? null
           : cardId
+      },
+      addToCart(card) {
+        this.$store.dispatch('addToCart', card);
       }
     },
     computed: {
