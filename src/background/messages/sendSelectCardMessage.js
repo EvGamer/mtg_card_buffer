@@ -1,4 +1,4 @@
-import { SELECT_CARD } from "../background/const/messages";
+import { SELECT_CARD } from "../const/messages";
 
 export default selectedCardId => browser.runtime.sendMessage({
   type: SELECT_CARD,

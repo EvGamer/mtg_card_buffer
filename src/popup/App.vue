@@ -45,15 +45,14 @@
 </template>
 
 <script>
-import Vue from 'vue';
 import {
-  GET_CARD_LIST,
   ADD_CARD_TO_POPUP,
-  UPDATE_CARD_LIST,
 } from '../background/const/messages';
-import msgGetCardList from '../messages/msgGetCardList';
-import msgUpdateCardList from '../messages/msgUpdateCardList';
-import msgSelectCard from '../messages/msgSelectCard';
+import {
+  sendGetCardListMessage,
+  sendUpdateCardListMessage,
+  sendSelectCardMessage
+} from '../background/messages';
 import Input from './components/Input.vue';
 import Counter from './components/Counter.vue';
 import getCardLine from '../utils/getCardLine';
@@ -66,7 +65,7 @@ export default {
   components: { Input, Counter },
   async mounted() {
     browser.runtime.onMessage.addListener(this.addCardHandler);
-    const { cardList, selectedCardId } = await msgGetCardList();
+    const { cardList, selectedCardId } = await sendGetCardListMessage();
     this.cards = cardList;
     this.selectedCardId = selectedCardId;
   },
@@ -79,12 +78,12 @@ export default {
   }),
   methods: {
     addCardHandler(message) {
-      if(message.type != ADD_CARD_TO_POPUP) return;
+      if (message.type != ADD_CARD_TO_POPUP) return;
       this.cards.push(message.payload.card);
     },
     selectCard(id) {
       this.selectedCardId = id;
-      msgSelectCard(id);
+      sendSelectCardMessage(id);
     },
     remove(id) {
       this.cards = this.cards.filter(e => e.id !== id);
@@ -109,7 +108,7 @@ export default {
   watch: {
     cards: {
       handler(val) {
-        msgUpdateCardList(val);
+        sendUpdateCardListMessage(val);
       },
       deep: true,
     },

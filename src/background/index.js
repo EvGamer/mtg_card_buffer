@@ -1,10 +1,11 @@
 import uniqueId from 'lodash/uniqueId';
-import { ADD_CARD, PASTE_CARD_LIST, SET_PRICE } from './const/contextMenu';
+import { ADD_CARD as MENU_ADD_CARD, PASTE_CARD_LIST, SET_PRICE } from './const/contextMenu';
 import {
   GET_CARD_LIST,
   ADD_CARD_TO_POPUP,
   UPDATE_CARD_LIST,
-  SELECT_CARD
+  SELECT_CARD,
+  ADD_CARD
 } from './const/messages';
 
 const menu = [
@@ -38,7 +39,7 @@ const switchHandlers = (typeField, handlers) => (action, ...args) => {
 }
 
 browser.contextMenus.onClicked.addListener(switchHandlers('menuItemId', {
-  [ADD_CARD] (info, tab) {
+  [MENU_ADD_CARD] (info, tab) {
     const card = {
       id: uniqueId('back_mtg_card'),
       name: info.linkText || info.selectionText,
@@ -77,5 +78,14 @@ browser.runtime.onMessage.addListener(switchHandlers('type', {
   },
   [UPDATE_CARD_LIST](message) {
     cardList = message.payload;
+  },
+  [ADD_CARD](message) {
+    const card = message.payload;
+    cardList.push(card);
+
+    browser.runtime.sendMessage({
+      type: ADD_CARD_TO_POPUP,
+      payload: { card, selectedCardId: card.id },
+    })
   }
 }))

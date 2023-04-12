@@ -1,4 +1,4 @@
-import msgGetCardList from "../messages/msgGetCardList";
+import msgGetCardList from "../background/messages/sendGetCardListMessage";
 import getCardLine from "../utils/getCardLine";
 import getCardListWithTotal from '../utils/getCardListWithTotal';
 
