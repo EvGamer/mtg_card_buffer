@@ -20,7 +20,7 @@
           </div>
           <img v-if="openedPreviewCardId === props.row.id" :src="props.row.imageUrl" height="300"/>
         </div>
-        <div v-if="props.column.field === 'actions'">
+        <div v-else-if="props.column.field === 'actions'">
           <button
             class="ipsButton ipsButton_verySmall ipsButton_light"
             @click="addToCart(props.row)"
