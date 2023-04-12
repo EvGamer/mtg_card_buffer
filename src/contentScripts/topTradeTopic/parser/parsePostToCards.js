@@ -1,3 +1,5 @@
+import { getLineNodes } from './getLineNodes';
+
 const RE_SEPARATOR = /,?\s/;
 const RE_PRICE = /^(\d+)[рР]?(?:уб)?/;
 
@@ -17,12 +19,12 @@ export function parsePostToCards(postContentElement) {
   const cardLinks = postContentElement.querySelectorAll('.topdeck_tooltipCard');
 
   cardLinks.forEach((cardLink, i) => {
-    const lineElement = cardLink.parentElement;
+    const nodes = getLineNodes(cardLink);
 
     // if it's not going straight after quantity - skip it, because it could match set name like "Weatherlight"
-    if (lineElement.childNodes[1] !== cardLink) return;
+    if (nodes[1] !== cardLink) return;
 
-    const quantity = Number(lineElement.childNodes[0].textContent.trim());
+    const quantity = Number(nodes[0].textContent.trim());
 
     // if line doesn't start with quantity, it's not a card listing
     if (Number.isNaN(quantity)) return;
@@ -34,7 +36,7 @@ export function parsePostToCards(postContentElement) {
       quantity,
     }
 
-    const cardInfoText = convertNodesToText(lineElement.childNodes, 2);
+    const cardInfoText = convertNodesToText(nodes, 2);
 
     cardInfoText.split(RE_SEPARATOR).forEach(word => {
       if (!card.price) {
