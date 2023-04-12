@@ -5,6 +5,9 @@
       :rows="cards"
       :columns="columns"
       :pagination-options="paginationOptions"
+      :search-options="searchOptions"
+      mode="remote"
+      @on-search="handleSearch"
       styleClass="vgt-table condensed"
       class="mtg-card-buffer__table"
     >
@@ -37,6 +40,8 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
+
   import { VueGoodTable } from "vue-good-table";
 
   import 'vue-good-table/dist/vue-good-table.css';
@@ -56,6 +61,12 @@
           rowsPerPageLabel: "Карт на странице",
           ofLabel: "из",
           allLabel: "Все",
+        },
+        searchOptions: {
+          enabled: true,
+          trigger: "enter",
+          placeholder: "Найти в scryfall",
+          searchFn: "",
         },
         columns: [
           {
@@ -105,17 +116,33 @@
           ? null
           : cardId
       },
+
       addToCart(card) {
         this.$store.dispatch('addToCart', card);
+      },
+
+      handleSearch(params) {
+        console.log('searchScryfall', params);
+      },
+
+      handleChangePage({ currentPage }) {
+        this.$store.commit('setCurrentPage', currentPage)
+      },
+
+      handleChangePageSize({ currentPage, currentPerPage }) {
+        this.$store.commit('setPageSize', { currentPage, pageSize: currentPerPage })
+      },
+
+      handleColumnFiltering() {
+        this.$store.commit('setFilter', { currentPage})
       }
     },
     computed: {
-      cards() {
-        return this.$store.state.cards;
-      },
-      isOpen() {
-        return this.$store.state.isTableOpen;
-      }
+      ...mapGetters({
+        cards: 'cards.filtered',
+        total: 'cards.total',
+        isOpen: 'cards.isTableOpen',
+      }),
     }
   }
 </script>

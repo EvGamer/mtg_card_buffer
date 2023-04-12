@@ -17,7 +17,7 @@
     },
     computed: {
       text() {
-        return this.$store.state.isTableOpen
+        return this.$store.state.cards.isTableOpen
           ? "Скрыть таблицу карт"
           : "Показать таблицу карт";
       }
