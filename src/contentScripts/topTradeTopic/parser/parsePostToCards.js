@@ -1,5 +1,5 @@
 const RE_SEPARATOR = /,?\s/;
-const RE_PRICE = /(\d+)[рР]?(?:уб)?/;
+const RE_PRICE = /^(\d+)[рР]?(?:уб)?/;
 
 function convertNodesToText(childNodes, startingFrom) {
   const textContents = [];
@@ -38,8 +38,8 @@ export function parsePostToCards(postContentElement) {
 
     cardInfoText.split(RE_SEPARATOR).forEach(word => {
       if (!card.price) {
-        const priceMatch = word.match(RE_PRICE)
-        if (priceMatch) card.price = Number(priceMatch[1])
+        const priceMatch = word.match(RE_PRICE);
+        if (priceMatch) card.price = Number(priceMatch[1]);
       }
     })
 
