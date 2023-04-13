@@ -125,8 +125,8 @@ import { mapGetters, mapState } from 'vuex';
         this.$store.dispatch('cards/addToCart', card);
       },
 
-      handleSearch(params) {
-        console.log('searchScryfall', params);
+      handleSearch({ searchTerm }) {
+        this.$store.dispatch("cards/searchOnScryfall", searchTerm);
       },
 
       handleChangePage({ currentPage }) {

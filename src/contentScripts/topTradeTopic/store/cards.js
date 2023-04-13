@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import { sendAddCardMessage } from '../../../background/messages';
+import Scryfall from '../api/Scryfall';
 
 import { parsePostToCards } from '../parser';
 
@@ -38,9 +39,12 @@ export default {
     },
 
     setFilters(state, payload) {
-      console.log('set filters', payload)
       Vue.set(state, 'filters', payload);
       state.currentPage = 1;
+    },
+
+    setScryfallSearchResults(state, payload) {
+      state.scryfallSearchResults = payload;
     }
   },
 
@@ -69,10 +73,34 @@ export default {
         count: 1,
         price: card.price,
       })
+    },
+
+    async searchOnScryfall(context, query) {
+      if (!query) {
+        context.commit('setScryfallSearchResults', []);
+      }
+
+      try {
+        console.log('queue scryfall request');
+        const response = await Scryfall.search(query);
+        console.log('request resolved');
+        const responseData = await response.json()
+        console.log(responseData)
+      } catch (error) {
+        console.error(error.status);
+        if (error.response) {
+          console.log(error.response);
+          console.error(error.response.error());
+        }
+      }
     }
   },
 
   getters: {
+    filteredByScryfall({ scryfallSearchResults, list }) {
+      return list;
+    },
+
     filtered({ list, filters, currentPage, pageSize }) {
       const l = v => {
         console.log('list', v);

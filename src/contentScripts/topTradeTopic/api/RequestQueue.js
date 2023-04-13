@@ -1,20 +1,19 @@
 export class RequestQueue {
   constructor(timeout) {
     this.timeout = timeout;
+    this.queue = [];
+    this.timer = null;
   }
 
-  queue = [];
-  timer = null;
-
-  add(...args) {
+  add(url, options) {
     if (!this.timer) {
       this._scheduleNextRequest();
 
-      return fetch(...args);
+      return fetch(url, options);
     }
 
     return new Promise((resolve) => {
-      this.queue.push(() => resolve(fetch(...args)));
+      this.queue.push(() => resolve(fetch(url, options)));
     })
   }
 
