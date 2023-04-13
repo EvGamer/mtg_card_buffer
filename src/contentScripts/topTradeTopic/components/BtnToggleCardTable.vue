@@ -12,7 +12,7 @@
     name: "BtnToggleCardTable",
     methods: {
       toggleTable() {
-        this.$store.dispatch("toggleTable");
+        this.$store.dispatch("cards/toggleTable");
       }
     },
     computed: {

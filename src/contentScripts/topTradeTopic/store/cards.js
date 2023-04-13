@@ -1,19 +1,21 @@
+import Vue from 'vue';
 import { sendAddCardMessage } from '../../../background/messages';
 
 import { parsePostToCards } from '../parser';
 
 export default {
+  namespaced: true,
   state: {
+    isTableOpen: false,
     list: [],
     pageSize: 15,
-    currentPage: 0,
+    currentPage: 1,
     scryfallQuery: '',
     scryfallSearchResults: [],
     filters: {
       name: '',
     },
     order: [],
-    isTableOpen: false,
   },
 
   mutations: {
@@ -21,8 +23,9 @@ export default {
       state.isTableOpen = payload;
     },
 
-    setCards(state, payload) {
-      state.cards = payload;
+    setList(state, payload) {
+      console.log('set list', payload);
+      state.list = payload;
     },
 
     setCurrentPage(state, payload) {
@@ -30,7 +33,14 @@ export default {
     },
 
     setPageSize(state, { pageSize, currentPage }) {
-      state.pageSize = payload;
+      state.pageSize = pageSize;
+      state.currentPage = currentPage;
+    },
+
+    setFilters(state, payload) {
+      console.log('set filters', payload)
+      Vue.set(state, 'filters', payload);
+      state.currentPage = 1;
     }
   },
 
@@ -40,7 +50,7 @@ export default {
 
       const cards = parsePostToCards(postContentElement);
 
-      context.commit('setCards', cards);
+      context.commit('setList', cards);
     },
 
     async toggleTable(context) {
@@ -63,13 +73,21 @@ export default {
   },
 
   getters: {
-    filtered({ list, filters }) {
+    filtered({ list, filters, currentPage, pageSize }) {
+      const l = v => {
+        console.log('list', v);
+        return v;
+      }
 
-      return list
+      console.log(`page: ${currentPage}, page size: ${pageSize}, `);
+      console.log('filters', filters.name);
+
+      return l(list
         .filter((card) => (
-          (!filters.name || card.name.includes(filters.name))
+          (!filters.name || card.name.toLowerCase().includes(filters.name.toLowerCase()))
         ))
-        .slice(currentPage * pageSize, pageSize);
+        .slice((currentPage - 1) * pageSize, currentPage * pageSize)
+      );
     },
 
     total(state) {

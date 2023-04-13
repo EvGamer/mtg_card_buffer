@@ -6,8 +6,12 @@
       :columns="columns"
       :pagination-options="paginationOptions"
       :search-options="searchOptions"
+      :totalRows="total"
       mode="remote"
       @on-search="handleSearch"
+      @on-column-filter="handleColumnFilter"
+      @on-page-change="handleChangePage"
+      @on-per-page-change="handleChangePage"
       styleClass="vgt-table condensed"
       class="mtg-card-buffer__table"
     >
@@ -40,7 +44,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
   import { VueGoodTable } from "vue-good-table";
 
@@ -118,7 +122,7 @@
       },
 
       addToCart(card) {
-        this.$store.dispatch('addToCart', card);
+        this.$store.dispatch('cards/addToCart', card);
       },
 
       handleSearch(params) {
@@ -126,22 +130,24 @@
       },
 
       handleChangePage({ currentPage }) {
-        this.$store.commit('setCurrentPage', currentPage)
+        this.$store.commit('cards/setCurrentPage', currentPage)
       },
 
       handleChangePageSize({ currentPage, currentPerPage }) {
-        this.$store.commit('setPageSize', { currentPage, pageSize: currentPerPage })
+        this.$store.commit('cards/setPageSize', { currentPage, pageSize: currentPerPage })
       },
 
-      handleColumnFiltering() {
-        this.$store.commit('setFilter', { currentPage})
+      handleColumnFilter(params) {
+        this.$store.commit('cards/setFilters', params.columnFilters)
       }
     },
     computed: {
-      ...mapGetters({
-        cards: 'cards.filtered',
-        total: 'cards.total',
-        isOpen: 'cards.isTableOpen',
+      ...mapState('cards', {
+        isOpen: 'isTableOpen',
+      }),
+      ...mapGetters('cards', {
+        cards: 'filtered',
+        total: 'total',
       }),
     }
   }
