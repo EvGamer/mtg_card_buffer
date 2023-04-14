@@ -49,8 +49,12 @@ export default {
   },
 
   actions: {
-    loadTable(context) {
+    async loadTable(context) {
       const postContentElement = document.querySelector('.cPost .cPost_contentWrap');
+
+      if (context.rootState.sets.list.length < 1) {
+        await context.dispatch('sets/fetch');
+      }
 
       const cards = parsePostToCards(postContentElement);
 

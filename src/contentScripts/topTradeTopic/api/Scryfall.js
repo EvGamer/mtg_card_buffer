@@ -22,6 +22,12 @@ class Scryfall {
     return this.requestQueue.add(url, { method: "GET" });
   }
 
+  fetchSets() {
+    const url = new URL('sets', SCRYFALL_API_URL);
+
+    return this.requestQueue.add(url, { method: "GET" });
+  }
+
 }
 
 export default new Scryfall();
