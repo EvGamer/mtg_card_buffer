@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import BtnToggleCardTable from '../../components/BtnToggleCardTable.vue';
+import BtnToggleCardTable from './components/BtnToggleCardTable.vue';
 
 export default {
   name: "Toolbar",

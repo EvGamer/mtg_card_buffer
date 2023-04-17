@@ -1,2 +1,2 @@
-export * from './CardTable';
+export * from './CardDisplay';
 export * from './Toolbar';

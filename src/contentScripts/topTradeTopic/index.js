@@ -1,4 +1,4 @@
-import { Toolbar, CardTable } from "./instances";
+import { Toolbar, CardDisplay } from "./instances";
 
 
 function createAppContainer(tag, id) {
@@ -22,5 +22,5 @@ const cardTableContainer = createAppContainer('div', 'cardTable');
 
 topicHeaderElement.after(cardTableContainer);
 
-new CardTable().$mount(cardTableContainer);
+new CardDisplay().$mount(cardTableContainer);
 

@@ -1,13 +1,14 @@
 import Vue from 'vue';
 import { sendAddCardMessage } from '../../../background/messages';
 import Scryfall from '../api/Scryfall';
+import { CardDisplayMode } from '../const/CardDisplayMode';
 
 import { parsePostToCards } from '../parser';
 
 export default {
   namespaced: true,
   state: {
-    isTableOpen: false,
+    displayMode: null,
     list: [],
     pageSize: 15,
     currentPage: 1,
@@ -21,7 +22,7 @@ export default {
 
   mutations: {
     setIsTableOpen(state, payload) {
-      state.isTableOpen = payload;
+      state.displayMode = payload ? CardDisplayMode.table : null;
     },
 
     setList(state, payload) {
@@ -62,8 +63,10 @@ export default {
     },
 
     async toggleTable(context) {
-      if (context.state.isTableOpen === false) {
-        await context.dispatch('loadTable');
+      if (context.getters.isTableOpen === false) {
+        if (context.state.displayMode === null) {
+          await context.dispatch('loadTable');
+        }
         context.commit('setIsTableOpen', true);
         return;
       }
@@ -106,20 +109,15 @@ export default {
     },
 
     filtered({ list, filters, currentPage, pageSize }) {
-      const l = v => {
-        console.log('list', v);
-        return v;
-      }
-
-      console.log(`page: ${currentPage}, page size: ${pageSize}, `);
-      console.log('filters', filters.name);
-
-      return l(list
+      return list
         .filter((card) => (
           (!filters.name || card.name.toLowerCase().includes(filters.name.toLowerCase()))
         ))
-        .slice((currentPage - 1) * pageSize, currentPage * pageSize)
-      );
+        .slice((currentPage - 1) * pageSize, currentPage * pageSize);
+    },
+
+    isTableOpen(state) {
+      return state.displayMode === CardDisplayMode.table;
     },
 
     total(state) {

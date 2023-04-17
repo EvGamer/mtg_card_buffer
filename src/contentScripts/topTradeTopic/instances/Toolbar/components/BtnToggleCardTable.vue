@@ -1,22 +1,22 @@
 <template>
-  <button
-    class="ipsButton ipsButton_verySmall ipsButton_light"
-    @click.prevent="toggleTable"
-  >
-    {{ text }}
-  </button>
+  <IpsButton @click.prevent="toggleTable">
+    {{ tableButtonText }}
+  </IpsButton>
 </template>
 
 <script>
+  import IpsButton from '../../components/IpsButton.vue';
+
   export default {
     name: "BtnToggleCardTable",
+    components: { IpsButton },
     methods: {
       toggleTable() {
         this.$store.dispatch("cards/toggleTable");
       }
     },
     computed: {
-      text() {
+      tableButtonText() {
         return this.$store.state.cards.isTableOpen
           ? "Скрыть таблицу карт"
           : "Показать таблицу карт";

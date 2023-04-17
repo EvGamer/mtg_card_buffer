@@ -1,46 +1,43 @@
 <template>
-  <div>
-    <VueGoodTable
-      v-if="isOpen"
-      :rows="cards"
-      :columns="columns"
-      :pagination-options="paginationOptions"
-      :search-options="searchOptions"
-      :totalRows="total"
-      mode="remote"
-      @on-search="handleSearch"
-      @on-column-filter="handleColumnFilter"
-      @on-page-change="handleChangePage"
-      @on-per-page-change="handleChangePage"
-      styleClass="vgt-table condensed"
-      class="mtg-card-buffer__table"
-    >
-      <template slot="table-row" slot-scope="props">
-        <div v-if="props.column.field === 'name'">
-          <div
-              role="button"
-              tabindex="0"
-              class="previewButton"
-              @click="togglePreview(props.row.id)"
-          >
-            {{ props.row.name }}
-          </div>
-          <img v-if="openedPreviewCardId === props.row.id" :src="props.row.imageUrl" height="300"/>
+  <VueGoodTable
+    :rows="cards"
+    :columns="columns"
+    :pagination-options="paginationOptions"
+    :search-options="searchOptions"
+    :totalRows="total"
+    mode="remote"
+    @on-search="handleSearch"
+    @on-column-filter="handleColumnFilter"
+    @on-page-change="handleChangePage"
+    @on-per-page-change="handleChangePage"
+    styleClass="vgt-table condensed"
+    class="mtg-card-buffer__table"
+  >
+    <template slot="table-row" slot-scope="props">
+      <div v-if="props.column.field === 'name'">
+        <div
+            role="button"
+            tabindex="0"
+            class="previewButton"
+            @click="togglePreview(props.row.id)"
+        >
+          {{ props.row.name }}
         </div>
-        <div v-else-if="props.column.field === 'actions'">
-          <button
-            class="ipsButton ipsButton_verySmall ipsButton_light"
-            @click="addToCart(props.row)"
-          >
-            В корзину
-          </button>
-        </div>
-        <span v-else>
-          {{ props.formattedRow[props.column.field] }}
-        </span>
-      </template>
-    </VueGoodTable>
-  </div>
+        <img v-if="openedPreviewCardId === props.row.id" :src="props.row.imageUrl" height="300"/>
+      </div>
+      <div v-else-if="props.column.field === 'actions'">
+        <button
+          class="ipsButton ipsButton_verySmall ipsButton_light"
+          @click="addToCart(props.row)"
+        >
+          В корзину
+        </button>
+      </div>
+      <span v-else>
+        {{ props.formattedRow[props.column.field] }}
+      </span>
+    </template>
+  </VueGoodTable>
 </template>
 
 <script>
@@ -142,9 +139,6 @@ import { mapGetters, mapState } from 'vuex';
       }
     },
     computed: {
-      ...mapState('cards', {
-        isOpen: 'isTableOpen',
-      }),
       ...mapGetters('cards', {
         cards: 'filtered',
         total: 'total',
