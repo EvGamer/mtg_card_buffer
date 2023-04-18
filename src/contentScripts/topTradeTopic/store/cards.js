@@ -21,12 +21,11 @@ export default {
   },
 
   mutations: {
-    setIsTableOpen(state, payload) {
-      state.displayMode = payload ? CardDisplayMode.table : null;
+    setDisplayMode(state, payload) {
+      state.displayMode = payload;
     },
 
     setList(state, payload) {
-      console.log('set list', payload);
       state.list = payload;
     },
 
@@ -53,24 +52,25 @@ export default {
     async loadTable(context) {
       const postContentElement = document.querySelector('.cPost .cPost_contentWrap');
 
-      if (context.rootState.sets.list.length < 1) {
-        await context.dispatch('sets/fetch');
-      }
+      // if (context.rootState.sets.list.length < 1) {
+      //   await context.dispatch('sets/fetch');
+      // }
 
       const cards = parsePostToCards(postContentElement);
 
       context.commit('setList', cards);
     },
 
-    async toggleTable(context) {
-      if (context.getters.isTableOpen === false) {
-        if (context.state.displayMode === null) {
-          await context.dispatch('loadTable');
-        }
-        context.commit('setIsTableOpen', true);
-        return;
+    async toggleCardDisplay(context, payload) {
+      const { displayMode } = context.state;
+
+      if (displayMode === null) {
+        await context.dispatch('loadTable');
       }
-      context.commit('setIsTableOpen', false);
+
+      const newDisplayMode = displayMode === payload ? null : payload;
+
+      context.commit('setDisplayMode', newDisplayMode);
     },
 
     async addToCart(context, card) {

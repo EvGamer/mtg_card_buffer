@@ -5,6 +5,7 @@
 </template>
 
 <script>
+  import { CardDisplayMode } from '../../../const';
   import IpsButton from '../../components/IpsButton.vue';
 
   export default {
@@ -12,12 +13,13 @@
     components: { IpsButton },
     methods: {
       toggleTable() {
-        this.$store.dispatch("cards/toggleTable");
+        console.log('toggle table')
+        this.$store.dispatch("cards/toggleCardDisplay", CardDisplayMode.table);
       }
     },
     computed: {
       tableButtonText() {
-        return this.$store.state.cards.isTableOpen
+        return this.$store.state.cards.displayMode === CardDisplayMode.table
           ? "Скрыть таблицу карт"
           : "Показать таблицу карт";
       }

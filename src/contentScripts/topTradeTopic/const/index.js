@@ -1,1 +1,1 @@
-import { CardDisplayMode } from './CardDisplayMode';
+export { CardDisplayMode } from './CardDisplayMode';

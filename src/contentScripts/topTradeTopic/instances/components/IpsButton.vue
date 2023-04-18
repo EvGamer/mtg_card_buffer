@@ -1,7 +1,7 @@
 <template>
   <button
     class="ipsButton ipsButton_verySmall ipsButton_light"
-    @click.prevent="toggleTable"
+    @click.prevent="$emit('click', $event)"
   >
     <slot></slot>
   </button>
@@ -9,6 +9,7 @@
 
 <script>
 export default {
-  name: "IpsButton"
+  name: "IpsButton",
+  emits: ["click"]
 }
 </script>
