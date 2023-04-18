@@ -9,12 +9,21 @@ export class RequestQueue {
     if (!this.timer) {
       this._scheduleNextRequest();
 
-      return fetch(url, options);
+      return this._fetch(url, options);
     }
 
     return new Promise((resolve) => {
-      this.queue.push(() => resolve(fetch(url, options)));
+      this.queue.push(() => resolve(this._fetch(url, options)));
     })
+  }
+
+  _fetch(url, options) {
+    if (options.fake) {
+      console.log(`Request to ${url}`, this.queue.length, Date.now());
+      return Promise.resolve();
+    }
+
+    return fetch(url, options);
   }
 
   _scheduleNextRequest() {

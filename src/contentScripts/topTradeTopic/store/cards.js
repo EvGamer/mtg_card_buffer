@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import { sendAddCardMessage } from '../../../background/messages';
+import { mapSlices } from '../../../utils/mapSlices';
 import Scryfall from '../api/Scryfall';
 import { CardDisplayMode } from '../const/CardDisplayMode';
 
@@ -56,9 +57,14 @@ export default {
       //   await context.dispatch('sets/fetch');
       // }
 
+
       const cards = parsePostToCards(postContentElement);
 
       context.commit('setList', cards);
+
+      const enrichedCards = await Scryfall.fetchCardListData(cards);
+
+      context.commit('setList', enrichedCards)
     },
 
     async toggleCardDisplay(context, payload) {

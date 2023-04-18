@@ -2,7 +2,7 @@ import { getLineNodes } from './getLineNodes';
 
 const RE_SEPARATOR = /,?\s/;
 const RE_PRICE = /^(\d+)[рР]?(?:уб)?/;
-const RE_SET = /^\(?((?:[a-z]\w{2})|(?:\w{2}[a-z])|(?:\w[a-z]\w))\)?/i;
+const RE_SET = /^\(?((?:[a-z]\w{2})|(?:\w{2}[a-z])|(?:\w[a-z]\w))\)?$/i;
 
 function convertNodesToText(childNodes, startingFrom) {
   const textContents = [];
@@ -50,7 +50,7 @@ export function parsePostToCards(postContentElement) {
 
       if (!card.set) {
         const setMatch = word.trim().match(RE_SET);
-        if (setMatch) card.set = setMatch[1].toUpperCase();
+        if (setMatch) card.set = setMatch[1].toLowerCase();
       }
     })
 
