@@ -61,10 +61,12 @@ export default {
       const cards = parsePostToCards(postContentElement);
 
       context.commit('setList', cards);
+      console.log('initial list', cards);
 
       const enrichedCards = await Scryfall.fetchCardListData(cards);
 
-      context.commit('setList', enrichedCards)
+      context.commit('setList', cards);
+      console.log('enriched list', enrichedCards)
     },
 
     async toggleCardDisplay(context, payload) {

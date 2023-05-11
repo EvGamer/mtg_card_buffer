@@ -27,14 +27,12 @@ export function parsePostToCards(postContentElement) {
 
     const quantity = Number(nodes[0].textContent.trim());
 
-    // if line doesn't start with quantity, it's not a card listing
-    if (Number.isNaN(quantity)) return;
-
     const card = {
       id: i,
-      name: cardLink.textContent,
+      name: cardLink.textContent.split("//")[0],
       imageUrl: cardLink.href,
-      quantity,
+      originalLine: convertNodesToText(nodes, 0),
+      quantity: Number.isNaN(quantity) ? 1 : quantity,
     }
 
     const cardInfoText = convertNodesToText(nodes, 2);
@@ -53,6 +51,9 @@ export function parsePostToCards(postContentElement) {
         if (setMatch) card.set = setMatch[1].toLowerCase();
       }
     })
+
+    // If card doesn't have a price, it's not a card listing, or it's incorrect
+    if (!card.price) return;
 
     cards.push(card);
   })
