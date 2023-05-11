@@ -61,12 +61,10 @@ export default {
       const cards = parsePostToCards(postContentElement);
 
       context.commit('setList', cards);
-      console.log('initial list', cards);
 
       const enrichedCards = await Scryfall.fetchCardListData(cards);
 
-      context.commit('setList', cards);
-      console.log('enriched list', enrichedCards)
+      context.commit('setList', enrichedCards);
     },
 
     async toggleCardDisplay(context, payload) {
@@ -96,9 +94,7 @@ export default {
       }
 
       try {
-        console.log('queue scryfall request');
         const response = await Scryfall.search(query);
-        console.log('request resolved');
         const responseData = await response.json()
         console.log(responseData)
       } catch (error) {
